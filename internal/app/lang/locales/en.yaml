@@ -1,0 +1,34 @@
+health: The MENUZ V1 API is health!
+unauthorized: You are not authorized to do this action!
+internal_error: Internal server error!
+route_not_found: This route was not found in our server!
+
+auth:
+  success: The login was successful!
+  not_authenticated: You're not authenticated. Please try to login first!
+  invalid_password: We were not able to confirm your password. Try again!
+
+unathorized_api_key: We were not able to authenticate the API KEY!
+body_parse_error: Error parsing the body, check your field types!
+
+headers:
+  api_key_not_found: The x-api-key was not found in the request headers!
+  user_code_not_found: The x-user-code was not found in the request headers!
+
+account:
+  created: The account has been created successfully!
+  error_creating: There was an internal error creating the account!
+
+role:
+  not_found: The role was not found!
+
+user:
+  email_already_exists: The user with the specified email address already exists!
+  phone_already_exists: The user with the specified phone number already exists!
+  not_found: The user account was not found!
+
+payment_method:
+  not_found: The payment method was not found
+
+payment:
+  success: The payment was processed successfully

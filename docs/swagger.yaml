@@ -1,0 +1,34 @@
+basePath: /api/v1
+host: localhost:8000
+info:
+  contact:
+    email: dev@voletapp.com
+    name: API Support
+  description: This is documentation for VOLET Payment Gateway in version 1.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Payment Gateway API
+  version: "1.0"
+paths:
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Shows if server is up
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Show server health
+      tags:
+      - health
+swagger: "2.0"

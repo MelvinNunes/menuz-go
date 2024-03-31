@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS roles  (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL
+);

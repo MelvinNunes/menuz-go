@@ -1,0 +1,15 @@
+main
+./main
+.env
+/env
+env
+/dev/.env
+/dev/env
+./dev/.env
+./dev/env
+logs
+.logs
+./logs
+tmp
+./tmp
+.tmp

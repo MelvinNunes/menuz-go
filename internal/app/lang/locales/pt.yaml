@@ -1,0 +1,34 @@
+health: A API MENUZ V1 esta saudavel!
+unauthorized: Não possuí autorização para realizar esta acção!
+internal_error: Ocorreu um erro interno no servidor!
+route_not_found: Esta rota não foi encontrada no nosso servidor!
+
+auth:
+  success: O login foi efectuado com sucesso!
+  not_authenticated: Não está autenticado. Por favor faça o login antes de continuar!
+  invalid_password: Não foi possivel confirmar a sua senha. Tente novamente!
+
+unathorized_api_key: Não conseguimos autenticar a API KEY!
+body_parse_error: Erro ao fazer parse dos dados da requisição, por verifique a documentação!
+
+headers:
+  api_key_not_found: O header de requisição x-api-key não foi encontrado!
+  user_code_not_found: O header de requisição x-user-code não foi encontrado!
+
+account:
+  created: A conta foi criada com sucesso!
+  error_creating: Ocorreu um erro interno ao criar a conta!
+
+role:
+  not_found: A função especificada não foi encontrada!
+
+user:
+  email_already_exists: Já existe um usúario com este email!
+  phone_already_exists: Já existe um usúario com este contacto!
+  not_found: A conta não foi encontrada!
+
+payment_method:
+  not_found: O metodo de pagamento não foi encontro!
+
+payment:
+  success: O pagamento foi processado com sucesso!
