@@ -3,9 +3,23 @@ package repository
 import (
 	"github.com/MelvinNunes/menuz-go/internal/domain/entity"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
-type UserRoleRepository interface {
-	Create(userRole *entity.UserRole) error
-	GetAllFromUserID(userID uuid.UUID) []entity.UserRole
+type UserRoleRepo struct {
+	db *gorm.DB
+}
+
+func NewUserRoleRepository(db *gorm.DB) *UserRoleRepo {
+	return &UserRoleRepo{db}
+}
+
+func (r *UserRoleRepo) Create(userRole *entity.UserRole) error {
+	return r.db.Create(userRole).Error
+}
+
+func (r *UserRoleRepo) GetAllFromUserID(userID uuid.UUID) []entity.UserRole {
+	var userRoles []entity.UserRole
+	r.db.Preload("Role").Where("user_id = ?", userID).Find(&userRoles)
+	return userRoles
 }

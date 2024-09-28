@@ -24,7 +24,7 @@ This API allows you to choose between two different languages (Portuguese - pt a
 
 ## DOCUMENTATION
 
-You can also use the following url "localhost:8000/v2/docs" to see the documentation (we used swagger for the API documentation)
+You can also use the following url "localhost:8000/docs" to see the documentation (we used swagger for the API documentation)
 
 Install swaggo (https://github.com/swaggo/swag?tab=readme-ov-file#supported-web-frameworks) so you can updated the documentation. Using "go install github.com/swaggo/swag/cmd/swag@latest"
 

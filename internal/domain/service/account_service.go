@@ -11,28 +11,20 @@ import (
 	"github.com/google/uuid"
 )
 
-type accService struct {
-	userRepository        repository.UserRepository
-	roleRepository        repository.RoleRepository
-	userProfileRepository repository.ProfileRepository
-	userRoleRepository    repository.UserRoleRepository
+type AccountService struct {
+	userRepository        repository.UserRepo
+	roleRepository        repository.RoleRepo
+	userProfileRepository repository.ProfileRepo
+	userRoleRepository    repository.UserRoleRepo
 }
-
-var AccountService *accService
 
 func NewAccountService(
-	userRepository repository.UserRepository,
-	roleRepository repository.RoleRepository,
-	userProfileRepository repository.ProfileRepository,
-	userRoleRepository repository.UserRoleRepository,
-) *accService {
-	AccountService = &accService{
-		userRepository:        userRepository,
-		roleRepository:        roleRepository,
-		userProfileRepository: userProfileRepository,
-		userRoleRepository:    userRoleRepository,
-	}
-	return &accService{
+	userRepository repository.UserRepo,
+	roleRepository repository.RoleRepo,
+	userProfileRepository repository.ProfileRepo,
+	userRoleRepository repository.UserRoleRepo,
+) *AccountService {
+	return &AccountService{
 		userRepository:        userRepository,
 		roleRepository:        roleRepository,
 		userProfileRepository: userProfileRepository,
@@ -40,7 +32,7 @@ func NewAccountService(
 	}
 }
 
-func (s *accService) CreateAccount(dto *dtos.CreateAccount, role entity.Role) error {
+func (s *AccountService) CreateAccount(dto *dtos.CreateAccount, role entity.Role) error {
 	password, err := security.HashPassword(dto.Password)
 	if err != nil {
 		return err
@@ -48,15 +40,6 @@ func (s *accService) CreateAccount(dto *dtos.CreateAccount, role entity.Role) er
 
 	code := uuid.NewString()
 	uuid, _ := uuid.NewUUID()
-
-	rawApiKey, apiKey := security.GenerateApiKeyJWTtoken(uuid.String())
-
-	for {
-		if !s.userRepository.UserExistsByApiKey(apiKey) {
-			break
-		}
-		rawApiKey, apiKey = security.GenerateAPIKey()
-	}
 
 	userDTO := &entity.User{
 		ID:              uuid,
@@ -97,8 +80,5 @@ func (s *accService) CreateAccount(dto *dtos.CreateAccount, role entity.Role) er
 	if err != nil {
 		return err
 	}
-
-	fmt.Print(rawApiKey)
-
 	return nil
 }

@@ -8,7 +8,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func CreateAccountHandler(c *fiber.Ctx) error {
+type AccountHandler struct {
+	userService    *service.UserService
+	roleService    *service.RoleService
+	accountService *service.AccountService
+}
+
+func NewAccountHandler(userService service.UserService) *AccountHandler {
+	return &AccountHandler{userService: &userService}
+}
+
+func (h *AccountHandler) CreateAccountHandler(c *fiber.Ctx) error {
 	data := dtos.CreateAccount{}
 	if err := c.BodyParser(&data); err != nil {
 		localize, _ := fiberi18n.Localize(c, "body_parse_error")
@@ -26,21 +36,21 @@ func CreateAccountHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	if service.UserService.UserExistsByEmail(data.Email) {
+	if h.userService.UserExistsByEmail(data.Email) {
 		localize, _ := fiberi18n.Localize(c, "user.email_already_exists")
 		return c.Status(fiber.StatusConflict).JSON(fiber.Map{
 			"message": localize,
 		})
 	}
 
-	if service.UserService.UserExistsByPhoneNumber(data.PhoneNumberCode, data.PhoneNumber) {
+	if h.userService.UserExistsByPhoneNumber(data.PhoneNumberCode, data.PhoneNumber) {
 		localize, _ := fiberi18n.Localize(c, "user.phone_already_exists")
 		return c.Status(fiber.StatusConflict).JSON(fiber.Map{
 			"message": localize,
 		})
 	}
 
-	role := service.RoleService.GetRoleByName(data.Role)
+	role := h.roleService.GetRoleByName(data.Role)
 	if role == nil {
 		localize, _ := fiberi18n.Localize(c, "role.not_found")
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
@@ -48,7 +58,7 @@ func CreateAccountHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	err = service.AccountService.CreateAccount(&data, *role)
+	err = h.accountService.CreateAccount(&data, *role)
 	if err != nil {
 		localize, _ := fiberi18n.Localize(c, "account.error_creating")
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -62,8 +72,8 @@ func CreateAccountHandler(c *fiber.Ctx) error {
 	})
 }
 
-func MyAccountHandler(c *fiber.Ctx) error {
-	user, _ := service.UserService.GetOnlineUser(c)
+func (h *AccountHandler) MyAccountHandler(c *fiber.Ctx) error {
+	user, _ := h.userService.GetOnlineUser(c)
 	if user == nil {
 		localize, _ := fiberi18n.Localize(c, "user.not_found")
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{

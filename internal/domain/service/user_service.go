@@ -12,52 +12,45 @@ import (
 	"github.com/google/uuid"
 )
 
-type uService struct {
-	userRepository     repository.UserRepository
-	profileRepository  repository.ProfileRepository
-	userRoleRepository repository.UserRoleRepository
+type UserService struct {
+	userRepository     repository.UserRepo
+	profileRepository  repository.ProfileRepo
+	userRoleRepository repository.UserRoleRepo
 }
-
-var UserService *uService
 
 func NewUserService(
-	userRepository repository.UserRepository,
-	profileRepository repository.ProfileRepository,
-	userRoleRepository repository.UserRoleRepository,
-) *uService {
-	UserService = &uService{
-		userRepository:     userRepository,
-		profileRepository:  profileRepository,
-		userRoleRepository: userRoleRepository,
-	}
-	return &uService{
+	userRepository repository.UserRepo,
+	profileRepository repository.ProfileRepo,
+	userRoleRepository repository.UserRoleRepo,
+) *UserService {
+	return &UserService{
 		userRepository:     userRepository,
 		profileRepository:  profileRepository,
 		userRoleRepository: userRoleRepository,
 	}
 }
 
-func (s *uService) GetUserByID(ID uuid.UUID) *entity.User {
+func (s *UserService) GetUserByID(ID uuid.UUID) *entity.User {
 	return s.userRepository.GetUserByID(ID)
 }
 
-func (s *uService) GetUserByEmail(email string) *entity.User {
+func (s *UserService) GetUserByEmail(email string) *entity.User {
 	return s.userRepository.GetUserByEmail(email)
 }
 
-func (s *uService) GetUserByCode(email string) *entity.User {
+func (s *UserService) GetUserByCode(email string) *entity.User {
 	return s.userRepository.GetUserByCode(email)
 }
 
-func (s *uService) UserExistsByEmail(email string) bool {
+func (s *UserService) UserExistsByEmail(email string) bool {
 	return s.userRepository.UserExistsByEmail(email)
 }
 
-func (s *uService) UserExistsByPhoneNumber(phoneCode, phoneNumber string) bool {
+func (s *UserService) UserExistsByPhoneNumber(phoneCode, phoneNumber string) bool {
 	return s.userRepository.UserExistsByPhone(phoneCode, phoneNumber)
 }
 
-func (s *uService) GetUserVMByID(ID uuid.UUID) (*dtos.UserVM, error) {
+func (s *UserService) GetUserVMByID(ID uuid.UUID) (*dtos.UserVM, error) {
 	user := s.userRepository.GetUserByID(ID)
 	if user == nil {
 		return nil, errors.New("user was not found")
@@ -82,7 +75,7 @@ func (s *uService) GetUserVMByID(ID uuid.UUID) (*dtos.UserVM, error) {
 	return &userVM, nil
 }
 
-func (s *uService) GetOnlineUser(c *fiber.Ctx) (*dtos.UserVM, error) {
+func (s *UserService) GetOnlineUser(c *fiber.Ctx) (*dtos.UserVM, error) {
 	userID := security.GetOnlineUserID(c)
 	return s.GetUserVMByID(uuid.MustParse(userID))
 }

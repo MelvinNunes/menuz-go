@@ -5,24 +5,19 @@ import (
 	"github.com/MelvinNunes/menuz-go/internal/domain/repository"
 )
 
-type rService struct {
-	roleRepository repository.RoleRepository
+type RoleService struct {
+	roleRepository repository.RoleRepo
 }
-
-var RoleService *rService
 
 func NewRoleService(
-	roleRepository repository.RoleRepository,
-) *rService {
-	RoleService = &rService{
-		roleRepository: roleRepository,
-	}
-	return &rService{
+	roleRepository repository.RoleRepo,
+) *RoleService {
+	return &RoleService{
 		roleRepository: roleRepository,
 	}
 }
 
-func (s *rService) CreateRole(name string) error {
+func (s *RoleService) CreateRole(name string) error {
 	role := &entity.Role{
 		Name: name,
 	}
@@ -30,14 +25,14 @@ func (s *rService) CreateRole(name string) error {
 	return err
 }
 
-func (s *rService) GetAllRoles() []entity.Role {
+func (s *RoleService) GetAllRoles() []entity.Role {
 	return s.roleRepository.ListAll()
 }
 
-func (s *rService) GetRoleByName(name string) *entity.Role {
+func (s *RoleService) GetRoleByName(name string) *entity.Role {
 	return s.roleRepository.GetByName(name)
 }
 
-func (s *rService) CountAllRoles() int64 {
+func (s *RoleService) CountAllRoles() int64 {
 	return s.roleRepository.Count()
 }

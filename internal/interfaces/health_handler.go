@@ -3,7 +3,6 @@ package interfaces
 import (
 	"log"
 
-	mailer "github.com/MelvinNunes/menuz-go/internal/app/integrations/email"
 	"github.com/gofiber/contrib/fiberi18n/v2"
 	"github.com/gofiber/fiber/v2"
 )
@@ -18,8 +17,6 @@ import (
 // @Failure      500  {object}  string (string)
 // @Router       /health [get]
 func GetServerHealthStatusHandler(c *fiber.Ctx) error {
-	mailer.SendMail()
-
 	localize, err := fiberi18n.Localize(c, "health")
 	if err != nil {
 		log.Panic("Error in fiberi18n.Localize: ", err)

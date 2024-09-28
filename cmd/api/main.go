@@ -11,7 +11,7 @@ import (
 	"github.com/MelvinNunes/menuz-go/internal/app/routes"
 	"github.com/MelvinNunes/menuz-go/internal/app/validators"
 	"github.com/MelvinNunes/menuz-go/internal/infrastructure/database"
-	"github.com/MelvinNunes/menuz-go/internal/infrastructure/injection"
+	"github.com/MelvinNunes/menuz-go/internal/infrastructure/database/seeders"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -58,16 +58,15 @@ func main() {
 	app.Use(recover.New())
 
 	db := database.InitDatabase()
-	injection.InjectReposAndService(db)
 
 	database.RunMigrations()
-	database.SeedDatabase()
+	seeders.SeedDatabase(db)
 
 	app.Get("/docs/*", swagger.HandlerDefault)
 	lang.ConfigureInternationalization(app)
 
 	api := app.Group("/api")
-	routes.Routes(api)
+	routes.Routes(db, api)
 	routes.NotFoundHandler(api)
 
 	validators.EnableValidation()

@@ -1,4 +1,4 @@
-package database
+package seeders
 
 import (
 	"log"
@@ -7,26 +7,13 @@ import (
 	accountTypes "github.com/MelvinNunes/menuz-go/internal/app/constants/account_types"
 	appLanguages "github.com/MelvinNunes/menuz-go/internal/app/constants/app_languages"
 	phoneCodes "github.com/MelvinNunes/menuz-go/internal/app/constants/phone_codes"
+	"github.com/MelvinNunes/menuz-go/internal/domain/repository"
 	"github.com/MelvinNunes/menuz-go/internal/domain/service"
 	"github.com/MelvinNunes/menuz-go/internal/infrastructure/dtos"
+	"gorm.io/gorm"
 )
 
-func SeedDatabase() {
-	seedRoles()
-	seedAdmin()
-}
-
-func seedRoles() {
-	roles := []string{accountTypes.ADMIN, accountTypes.USER}
-	totalRoles := service.RoleService.CountAllRoles()
-	if totalRoles == 0 {
-		for _, roleName := range roles {
-			service.RoleService.CreateRole(roleName)
-		}
-	}
-}
-
-func seedAdmin() {
+func seedAdmin(db *gorm.DB) {
 	email := os.Getenv("ADMIN_EMAIL")
 	if email == "" {
 		log.Fatal("Please set ADMIN_EMAIL environment variable")
@@ -52,7 +39,18 @@ func seedAdmin() {
 		log.Fatal("Please set ADMIN_PHONE_NUMBER environment variable")
 	}
 
-	if !service.UserService.UserExistsByEmail(email) {
+	// init repository and service
+	roleRepo := repository.NewRoleRepository(db)
+	userRepo := repository.NewUserRepository(db)
+	userProfileRepo := repository.NewProfileRepository(db)
+	userRoleRepo := repository.NewUserRoleRepository(db)
+
+	roleService := service.NewRoleService(*roleRepo)
+	userService := service.NewUserService(*userRepo, *userProfileRepo, *userRoleRepo)
+	accountService := service.NewAccountService(*userRepo, *roleRepo, *userProfileRepo, *userRoleRepo)
+	// end repository and service initialization
+
+	if !userService.UserExistsByEmail(email) {
 		account := dtos.CreateAccount{
 			Email:           email,
 			Password:        password,
@@ -63,11 +61,11 @@ func seedAdmin() {
 			AppLanguage:     appLanguages.EN,
 		}
 
-		role := service.RoleService.GetRoleByName(accountTypes.ADMIN)
+		role := roleService.GetRoleByName(accountTypes.ADMIN)
 		if role == nil {
 			log.Fatal("Admin role not found in database (infrastructure/database/seeders.go)!")
 		}
 
-		service.AccountService.CreateAccount(&account, *role)
+		accountService.CreateAccount(&account, *role)
 	}
 }
