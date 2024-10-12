@@ -12,7 +12,7 @@ const docTemplate = `{
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "API Support",
-            "email": "dev@voletapp.com"
+            "email": "melvinfulana@gmail.com"
         },
         "license": {
             "name": "Apache 2.0",
@@ -33,7 +33,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "health"
+                    "Health"
                 ],
                 "summary": "Show server health",
                 "responses": {
@@ -61,8 +61,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8000",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "Payment Gateway API",
-	Description:      "This is documentation for VOLET Payment Gateway in version 1.",
+	Title:            "MENUZ API",
+	Description:      "This is documentation for Menuz in version 1.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

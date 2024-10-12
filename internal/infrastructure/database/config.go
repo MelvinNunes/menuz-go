@@ -9,8 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-var Db *gorm.DB
-
 const (
 	MIGRATION_FILES_PATH = "./internal/infrastructure/database/sql"
 )
@@ -48,7 +46,6 @@ func InitDatabase() *gorm.DB {
 		log.Panicf("Failed to connect database: %v", err)
 	}
 
-	Db = db
 	return db
 }
 

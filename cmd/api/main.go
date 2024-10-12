@@ -10,6 +10,9 @@ import (
 	"github.com/MelvinNunes/menuz-go/internal/app/middleware"
 	"github.com/MelvinNunes/menuz-go/internal/app/routes"
 	"github.com/MelvinNunes/menuz-go/internal/app/validators"
+	"github.com/MelvinNunes/menuz-go/internal/domain/repository"
+	"github.com/MelvinNunes/menuz-go/internal/domain/service"
+	"github.com/MelvinNunes/menuz-go/internal/handlers"
 	"github.com/MelvinNunes/menuz-go/internal/infrastructure/database"
 	"github.com/MelvinNunes/menuz-go/internal/infrastructure/database/seeders"
 	"github.com/gofiber/fiber/v2"
@@ -66,7 +69,13 @@ func main() {
 	lang.ConfigureInternationalization(app)
 
 	api := app.Group("/api")
-	routes.Routes(db, api)
+
+	repos := repository.InitRepositories(db)
+	services := service.InitServices(repos)
+	handlers := handlers.InitHandlers(services)
+	middlewares := middleware.InitMiddlewares(services)
+
+	routes.Routes(api, handlers, middlewares)
 	routes.NotFoundHandler(api)
 
 	validators.EnableValidation()

@@ -1,12 +1,12 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is documentation for VOLET Payment Gateway in version 1.",
-        "title": "Payment Gateway API",
+        "description": "This is documentation for Menuz in version 1.",
+        "title": "MENUZ API",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "API Support",
-            "email": "dev@voletapp.com"
+            "email": "melvinfulana@gmail.com"
         },
         "license": {
             "name": "Apache 2.0",
@@ -27,7 +27,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "health"
+                    "Health"
                 ],
                 "summary": "Show server health",
                 "responses": {

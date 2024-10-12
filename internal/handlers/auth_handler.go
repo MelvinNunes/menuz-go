@@ -1,4 +1,4 @@
-package interfaces
+package handlers
 
 import (
 	"github.com/MelvinNunes/menuz-go/internal/app/validators"

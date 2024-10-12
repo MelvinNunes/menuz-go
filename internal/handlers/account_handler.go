@@ -1,4 +1,4 @@
-package interfaces
+package handlers
 
 import (
 	"github.com/MelvinNunes/menuz-go/internal/app/validators"
@@ -14,8 +14,8 @@ type AccountHandler struct {
 	accountService *service.AccountService
 }
 
-func NewAccountHandler(userService service.UserService) *AccountHandler {
-	return &AccountHandler{userService: &userService}
+func NewAccountHandler(userService service.UserService, roleService service.RoleService, accountService service.AccountService) *AccountHandler {
+	return &AccountHandler{userService: &userService, roleService: &roleService, accountService: &accountService}
 }
 
 func (h *AccountHandler) CreateAccountHandler(c *fiber.Ctx) error {
