@@ -3,6 +3,7 @@ CREATE TABLE menu_items (
     menu_id UUID REFERENCES menus(id) ON DELETE CASCADE, -- Foreign key to menus table
     name VARCHAR(255) NOT NULL,                   -- Menu item name
     description TEXT,                             -- Description (optional)
+    image VARCHAR(255) NULL,
     price DECIMAL(10, 2),                         -- Price of the menu item
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Created timestamp
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Updated timestamp
