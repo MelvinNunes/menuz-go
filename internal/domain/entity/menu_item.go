@@ -13,6 +13,7 @@ type MenuItem struct {
 	Name        string `gorm:"not null"`
 	Description string
 	Price       float64
+	Image       *string       `gorm:"type:varchar(255);default:null" json:"image"`
 	Category    []Category    `gorm:"many2many:menu_item_categories;"`    // e.g., "Appetizer", "Main Course", "Dessert"
 	DietaryInfo []DietaryInfo `gorm:"many2many:menu_item_dietary_infos;"` // e.g., "Vegetarian", "Vegan", "Gluten-Free"
 	Reviews     []Review
